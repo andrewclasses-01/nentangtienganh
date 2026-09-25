@@ -219,7 +219,8 @@ const toa=[ // chỉ 6 món, xếp gọn quanh mép màn đầu: x, y (tỉ lệ
   [-.82,.7,-2.5,'thuoc'],[.8,.72,-3.5,'compa'],[.86,-.66,-2,'sap',0xb8613f],
   [-.84,-.66,-3.5,'giay','assets/page-045.jpg'],[.55,-.92,-4.5,'cuon'],[-.28,.9,-5,'sap',0x46648f],
 ];
-(diDong?toa.slice(0,4):toa).forEach(t=>{
+// điện thoại (≤700px): KHÔNG có đồ dùng học tập ở màn đầu (thầy: màn nhỏ trông rối)
+(matchMedia('(max-width: 700px)').matches?[]:diDong?toa.slice(0,4):toa).forEach(t=>{
   let m;
   switch(t[3]){
     case 'thuoc':m=thuoc();break;
