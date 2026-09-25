@@ -153,15 +153,18 @@ const chs=$$('.ch',lt).map(el=>({el,n:el.classList.contains('dich')?9:+$('.sn',e
 chs.forEach(c=>c.el.style.setProperty('--o',c.n));
 function veDuong(){
   if(innerWidth<900){ltSvg.innerHTML='';return;}
-  const r0=lt.getBoundingClientRect();
-  const pts=chs.slice().sort((a,b)=>a.n-b.n).map(c=>{const r=c.el.getBoundingClientRect();return[r.left-r0.left+r.width/2,r.top-r0.top+r.height/2];});
+  // đo bằng vị trí BỐ CỤC (offset) — không bị lệch bởi hiệu ứng trượt/hiện dần (transform) của thẻ
+  const r0={width:lt.clientWidth};
+  const pts=chs.slice().sort((a,b)=>a.n-b.n).map(c=>[c.el.offsetLeft+c.el.offsetWidth/2,c.el.offsetTop+c.el.offsetHeight/2]);
   let d=`M${pts[0][0]},${pts[0][1]}`;
   for(let i=1;i<pts.length;i++){const[x0,y0]=pts[i-1],[x1,y1]=pts[i];
     if(Math.abs(y1-y0)<5) d+=` L${x1},${y1}`;
     else{const cx=x0+(x0>r0.width/2?1:-1)*r0.width*.12;d+=` C${cx},${y0} ${cx},${y1} ${x1},${y1}`;}}
   ltSvg.innerHTML=`<defs><linearGradient id="gd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b8893a"/><stop offset="1" stop-color="#2f6b55"/></linearGradient></defs><path class="nen" d="${d}"/><path d="${d}" stroke="url(#gd)" style="stroke-dasharray:2 14"/>`;
 }
-addEventListener('resize',veDuong);document.fonts.ready.then(veDuong);setTimeout(veDuong,1200);
+addEventListener('resize',veDuong);document.fonts.ready.then(veDuong);setTimeout(veDuong,1200);addEventListener('load',veDuong);
+if(window.ResizeObserver) new ResizeObserver(veDuong).observe(lt);                 // khung lộ trình đổi cỡ ⇒ vẽ lại
+new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)veDuong();}),{threshold:.1}).observe(lt);
 const ltStyle=document.createElement('style');ltStyle.textContent='@media (max-width:900px){.lt .ch{order:var(--o)}}';document.head.appendChild(ltStyle);
 
 /* ---------- một bài học ---------- */
