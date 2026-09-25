@@ -1,4 +1,4 @@
-/* NỀN TẢNG TIẾNG ANH — tương tác trang (v2) */
+/* NỀN TẢNG TIẾNG ANH — tương tác trang (v10) */
 (function(){
 'use strict';
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
@@ -23,10 +23,14 @@ const truc=$('#truc'), chay=$('#trucChay');
 const nuts=secs.map((s,i)=>{
   const b=document.createElement('button');b.type='button';b.style.setProperty('--c',s.dataset.c);
   b.innerHTML=`<i></i><span>${s.dataset.ten}</span>`;b.setAttribute('aria-label',s.dataset.ten);
-  b.addEventListener('click',()=>denMan(i));
+  b.addEventListener('click',()=>{
+    if(i>xaNhat+1){b.classList.remove('lac');void b.offsetWidth;b.classList.add('lac');nuts[xaNhat+1].classList.add('nhac');setTimeout(()=>nuts[xaNhat+1].classList.remove('nhac'),1400);return;}
+    denMan(i);});
   truc.appendChild(b);return b;
 });
 let dangO=0;
+// màn xa nhất đã xem (nhớ cho lần sau quay lại)
+let xaNhat=0;try{xaNhat=Math.min(secs.length-1,+localStorage.getItem('knt-xa')||0);}catch(e){}
 function capNhatTruc(){
   // phần đang chiếm giữa màn hình
   const giua=innerHeight/2;let k=0;
@@ -35,13 +39,16 @@ function capNhatTruc(){
     dangO=k;
     nuts.forEach((b,i)=>{b.classList.toggle('on',i===k);b.classList.toggle('qua',i<k);});
   }
+  if(k>xaNhat){xaNhat=k;try{localStorage.setItem('knt-xa',k);}catch(e){}}
+  nuts.forEach((b,i)=>b.classList.toggle('khoa',i>xaNhat+1));
   const a=nuts[0].offsetTop+nuts[0].offsetHeight/2, b=nuts[k].offsetTop+nuts[k].offsetHeight/2;
   chay.style.top=a+'px';chay.style.height=(b-a)+'px';
-  // nút đăng ký nổi: ẩn ở màn đầu và màn đăng ký
-  fab.classList.toggle('an',k===0||k===secs.length-1);
+  // nút "Tiếp tục" nổi (giữa đáy màn hình): ẩn ở màn đăng ký
+  fab.classList.toggle('an',k===secs.length-1);
   nav.classList.toggle('dac',scrollY>20);
 }
 const fab=$('#fab'), nav=$('#nav');
+fab.addEventListener('click',()=>denMan(dangO+1));
 addEventListener('scroll',capNhatTruc,{passive:true});addEventListener('resize',capNhatTruc);
 capNhatTruc();
 
@@ -117,7 +124,7 @@ addEventListener('resize',veDuong);document.fonts.ready.then(veDuong);setTimeout
 const ltStyle=document.createElement('style');ltStyle.textContent='@media (max-width:900px){.lt .ch{order:var(--o)}}';document.head.appendChild(ltStyle);
 
 /* ---------- một bài học ---------- */
-const mb=$('#mb'), buocs=$$('.buoc',mb), canhs=$$('.canh',mb), TG=[4200,3200,4000,3200,3000,4000];
+const mb=$('#mb'), buocs=$$('.buoc',mb), canhs=$$('.canh',mb), TG=[4200,3200,4000,3200,3000,5400];
 let buoc=0,hen=null,mbThay=false;
 function denBuoc(i,tu){
   buoc=i;
@@ -133,7 +140,7 @@ new IntersectionObserver(es=>es.forEach(e=>{mbThay=e.isIntersecting;if(mbThay)de
 let goHen=[];
 function goChu(){
   goHen.forEach(clearTimeout);goHen=[];
-  const cau='I can swim very fast.',el=$('#goChu'),o=$('#goO'),kq=$('#goKq');
+  const cau='She is my best friend.',el=$('#goChu'),o=$('#goO'),kq=$('#goKq');
   el.textContent='';o.classList.remove('dung');kq.classList.remove('on');
   [...cau].forEach((ch,k)=>goHen.push(setTimeout(()=>{el.textContent+=ch;},300+k*60)));
   goHen.push(setTimeout(()=>{o.classList.add('dung');kq.classList.add('on');},300+cau.length*60+300));
@@ -147,6 +154,53 @@ if(matchMedia('(hover:hover)').matches&&!giam){
     c.addEventListener('pointerleave',()=>c.style.transform='');
   });
 }
+
+/* ---------- khung game chạy thử (chỉ chạy khi màn Game đang hiện) ---------- */
+const gameSec=$('#game');let gameThay=false,gameHen=[];
+const gHen=(f,ms)=>gameHen.push(setTimeout(f,ms));
+function gameDung(){gameHen.forEach(clearTimeout);gameHen=[];}
+// Type the answer: gõ từng chữ, gõ xong là dừng + dấu ✓
+function gtChay(){
+  const cau='She doesn’t like fish.',el=$('#gtChu'),o=$('#gtO'),kq=$('#gtKq');
+  el.textContent='';o.classList.remove('dung');kq.classList.remove('on');
+  [...cau].forEach((ch,k)=>gHen(()=>{el.textContent+=ch;},500+k*95));
+  const het=500+cau.length*95;
+  gHen(()=>{o.classList.add('dung');kq.classList.add('on');},het+250);
+  gHen(gtChay,het+3200);
+}
+// Unjumble: các cụm bị xáo trộn lần lượt bay xuống ghép thành câu đúng
+const gu=$('#gu'),xao=$('.xao',gu),dich=$('.dich',gu),cumGoc=$$('b',xao);
+function bay(el,dich){ // FLIP: đo chỗ cũ, chuyển chỗ, trượt từ chỗ cũ sang
+  const a=el.getBoundingClientRect();dich.appendChild(el);const b=el.getBoundingClientRect();
+  el.style.transition='none';el.style.transform=`translate(${a.left-b.left}px,${a.top-b.top}px)`;
+  void el.offsetWidth;el.style.transition='transform .7s cubic-bezier(.2,.8,.2,1)';el.style.transform='';
+}
+function guChay(){
+  gu.classList.remove('het');cumGoc.forEach(b=>{b.style.transition='none';b.style.transform='';b.classList.remove('vao');xao.appendChild(b);});
+  const thuTu=cumGoc.slice().sort((a,b)=>a.dataset.i-b.dataset.i);
+  thuTu.forEach((b,k)=>gHen(()=>{bay(b,dich);b.classList.add('vao');},1300+k*1000));
+  gHen(()=>gu.classList.add('het'),1300+thuTu.length*1000+300);
+  gHen(guChay,1300+thuTu.length*1000+3400);
+}
+// Open the box: mở hộp ⇒ thẻ câu hỏi, rồi hiện câu trả lời
+const gb=$('#gb'),hops=$$('span',gb),the=$('.gb-the',gb);
+const HOP=[[2,'Where are you from?','I’m from Vietnam.'],[5,'Can she swim?','Yes, she can.'],[0,'How many books are there?','There are three books.']];
+let hopLuot=0;
+function gbChay(){
+  const [i,hoi,dap]=HOP[hopLuot++%HOP.length],h=hops[i];
+  the.classList.remove('on','dap');$('small',the).textContent='Hộp '+(i+1);$('b',the).textContent=hoi;$('em',the).textContent=dap;
+  gHen(()=>h.classList.add('mo'),700);
+  gHen(()=>the.classList.add('on'),1300);
+  gHen(()=>the.classList.add('dap'),3300);
+  gHen(()=>{the.classList.remove('on');},5600);
+  gHen(()=>{h.classList.remove('mo');h.classList.add('da');},6000);
+  gHen(()=>{if(hopLuot%HOP.length===0)hops.forEach(x=>x.classList.remove('da'));gbChay();},6600);
+}
+new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting===gameThay) return; gameThay=e.isIntersecting; gameDung();
+  if(gameThay&&!giam){gtChay();guChay();gbChay();}
+  else if(gameThay){$('#gtChu').textContent='She doesn’t like fish.';$('#gtO').classList.add('dung');$('#gtKq').classList.add('on');cumGoc.slice().sort((a,b)=>a.dataset.i-b.dataset.i).forEach(b=>dich.appendChild(b));gu.classList.add('het');}
+}),{threshold:.25}).observe(gameSec);
 
 /* ---------- bảng xếp hạng động ---------- */
 const MAU=['#b8613f','#b8893a','#2f6b55','#5f587f','#46648f','#9c5b67','#3b7a7d','#a8743f'];
@@ -208,7 +262,7 @@ function veTienBo(){
 
 /* ---------- form ---------- */
 const form=$('#form'),xong=$('#xong');
-const kiem={'f-ph':v=>v.trim().length>=2,'f-sdt':v=>/^(\+?84|0)(3|5|7|8|9)\d{8}$/.test(v.replace(/[\s.\-]/g,'')),'f-con':v=>v.trim().length>=2,'f-ns':v=>!!v,'f-truong':v=>v.trim().length>=2,'f-lop':v=>v.trim().length>=1};
+const kiem={'f-ph':v=>v.trim().length>=2,'f-sdt':v=>/^(\+?84|0)(3|5|7|8|9)\d{8}$/.test(v.replace(/[\s.\-]/g,'')),'f-con':v=>v.trim().length>=2,'f-ns':v=>v.trim().length>=4,'f-truong':v=>v.trim().length>=2,'f-lop':v=>v.trim().length>=1};
 Object.keys(kiem).forEach(id=>{const el=$('#'+id);
   el.addEventListener('blur',()=>{if(el.value)el.closest('.fld').classList.toggle('sai',!kiem[id](el.value));});
   el.addEventListener('input',()=>el.closest('.fld').classList.remove('sai'));});
@@ -236,6 +290,7 @@ function fbDb(){
 }
 const khongDau=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/đ/g,'d').replace(/Đ/g,'D');
 const chuanSdt=s=>{let x=s.replace(/[^0-9+]/g,'');if(x.startsWith('+84'))x='0'+x.slice(3);else if(x.startsWith('84')&&x.length===11)x='0'+x.slice(2);return x;};
+const chamSdt=s=>s.length===10?s.slice(0,4)+'.'+s.slice(4,7)+'.'+s.slice(7):s;
 const maCon=s=>khongDau(s).toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,60)||'con';
 const nutGui=form.querySelector('button[type=submit]'), guiLoi=$('#guiLoi');
 let dangGui=false;
@@ -246,8 +301,9 @@ async function guiDangKy(){
   const hienXong=(daCo)=>{
     $('#xongTieuDe').textContent=daCo?'Thầy đã nhận đăng ký này!':'Đăng ký thành công!';
     $('#xongTxt').textContent=daCo
-      ?`Phiếu của con ${g('f-con')} với số ${sdt} đã có sẵn. Thầy Andrew sẽ liên hệ phụ huynh sớm.`
-      :`Cảm ơn phụ huynh ${ten}. Thầy Andrew sẽ liên hệ qua số ${sdt}.`;
+      ?`Phiếu của con ${g('f-con')} với số ${chamSdt(sdt)} đã có sẵn. Thầy Andrew sẽ liên hệ phụ huynh sớm.`
+      :`Cảm ơn phụ huynh ${ten}. Thầy Andrew sẽ liên hệ qua số ${chamSdt(sdt)}.`;
+    $('#xongTxt').append(document.createElement('br'),'Anh/chị cũng có thể liên hệ sớm với thầy qua số ',Object.assign(document.createElement('a'),{href:'tel:0359769765',textContent:'0359.769.765'}),'.');
     xong.classList.add('on');if(!daCo)phaoGiay();
   };
   if($('#f-web').value){hienXong(false);return;}          // ô bẫy máy spam: giả như xong, không gửi
@@ -255,7 +311,7 @@ async function guiDangKy(){
   try{
     const {fs,db}=await fbDb();
     await fs.setDoc(fs.doc(db,'dangKyKNT',sdt+'_'+maCon(g('f-con'))),{
-      phuHuynh:ten, soDienThoai:sdt, tenCon:g('f-con'), ngaySinh:$('#f-ns').value, truong:g('f-truong'), lop:g('f-lop'),
+      phuHuynh:ten, soDienThoai:sdt, tenCon:g('f-con'), ngaySinh:g('f-ns').slice(0,40), truong:g('f-truong'), lop:g('f-lop'),
       nguyenVong:true, khoa:'NEN TANG K10', guiLuc:fs.serverTimestamp(), daXem:false, nguon:(location.hostname||'local').slice(0,40)
     });
     hienXong(false);
@@ -265,7 +321,7 @@ async function guiDangKy(){
     else guiLoi.textContent='Chưa gửi được (mạng chập chờn?). Phụ huynh bấm "Gửi đăng ký" lại giúp thầy nhé.';
   }finally{dangGui=false;nutGui.disabled=false;nutGui.classList.remove('dang');}
 }
-$('#xongLai').addEventListener('click',()=>{['f-con','f-ns','f-truong','f-lop'].forEach(id=>$('#'+id).value='');$('#f-ok').checked=false;xong.classList.remove('on');});
+$('#xongLai').addEventListener('click',()=>{['f-ph','f-sdt','f-con','f-ns','f-truong','f-lop'].forEach(id=>$('#'+id).value='');$('#f-ok').checked=false;xong.classList.remove('on');});
 function phaoGiay(){
   if(giam) return;
   const c=$('#conf'),x=c.getContext('2d'),dpr=devicePixelRatio;c.width=innerWidth*dpr;c.height=innerHeight*dpr;x.setTransform(dpr,0,0,dpr,0,0);

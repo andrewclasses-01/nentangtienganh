@@ -1,4 +1,4 @@
-/* NỀN TẢNG TIẾNG ANH — cảnh 3D (v5): sách thật + 6 dụng cụ học tập, chỉ ở màn đầu */
+/* NỀN TẢNG TIẾNG ANH — cảnh 3D (v10): sách thật (dịu sáng) + Trái Đất · Sao Hỏa · Sao Thổ (vành đai) trên 3 quỹ đạo + chữ quanh sách + 6 dụng cụ học tập */
 import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
 import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
@@ -26,7 +26,7 @@ renderer.setPixelRatio(Math.min(devicePixelRatio,diDong?1.6:1.8));
 renderer.setSize(innerWidth,innerHeight,false);
 renderer.setClearColor(0x000000,0);
 renderer.toneMapping=THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure=1.0;
+renderer.toneMappingExposure=.86;
 renderer.outputColorSpace=THREE.SRGBColorSpace;
 
 const scene=new THREE.Scene();
@@ -34,10 +34,10 @@ const camera=new THREE.PerspectiveCamera(35,innerWidth/innerHeight,.1,200);
 camera.position.set(0,0,10);
 const pmrem=new THREE.PMREMGenerator(renderer);
 scene.environment=pmrem.fromScene(new RoomEnvironment(renderer),.04).texture;
-scene.environmentIntensity=.7;
+scene.environmentIntensity=.45;
 
-scene.add(new THREE.HemisphereLight(0xfbf6ec,0xd8dde0,1.2));
-const key=new THREE.DirectionalLight(0xffffff,1.6);key.position.set(-4,6,7);scene.add(key);
+scene.add(new THREE.HemisphereLight(0xfbf6ec,0xd8dde0,.95));
+const key=new THREE.DirectionalLight(0xffffff,1.15);key.position.set(-4,6,7);scene.add(key);
 const fill=new THREE.DirectionalLight(0xe8e2d6,.7);fill.position.set(6,-2,4);scene.add(fill);
 
 /* ---------- ảnh ---------- */
@@ -59,7 +59,7 @@ function vanGiay(ngang){
 /* ---------- cuốn sách ---------- */
 const W=1.8,H=2.6,D=.17,B=.014;
 const sach=new THREE.Group();
-const bia=map=>new THREE.MeshPhysicalMaterial({map,roughness:.45,clearcoat:.6,clearcoatRoughness:.25});
+const bia=map=>new THREE.MeshPhysicalMaterial({map,color:0xe8e8e8,roughness:.55,clearcoat:.25,clearcoatRoughness:.45});
 const mep=new THREE.MeshStandardMaterial({color:0x2e6b2c,roughness:.55});
 const gd=new THREE.MeshStandardMaterial({map:vanGiay(false),roughness:.9}),gn=new THREE.MeshStandardMaterial({map:vanGiay(true),roughness:.9});
 const truoc=new THREE.Mesh(new THREE.BoxGeometry(W,H,B),[mep,mep,mep,mep,bia(texFront),mep]);truoc.position.z=D/2-B/2;sach.add(truoc);
@@ -73,20 +73,65 @@ const bc=document.createElement('canvas');bc.width=bc.height=128;{const x=bc.get
 const bong=new THREE.Mesh(new THREE.PlaneGeometry(3.2,.9),new THREE.MeshBasicMaterial({map:canvasTex(bc),transparent:true,depthWrite:false,opacity:.5}));
 bong.position.set(0,-1.95,-.3);khung.add(bong);
 
-/* ---------- hai vòng kim loại vàng quanh sách ---------- */
+/* ---------- 3 vòng quỹ đạo + Trái Đất, Sao Hỏa, Sao Mộc ---------- */
 const vang=new THREE.MeshPhysicalMaterial({color:0xc9a15c,metalness:1,roughness:.28,clearcoat:.4});
 const halo=new THREE.Group();khung.add(halo);
-const vongHat=new THREE.Group();halo.add(vongHat);
-[[2.3,[1.22,.22,0]],[2.62,[1.05,-.45,.25]]].forEach(([r,rot])=>{
+const vongHat=new THREE.Group();halo.add(vongHat);if(diDong)vongHat.scale.setScalar(.8);
+// nhiễu mịn để vẽ bề mặt hành tinh
+function nhieu(seed){
+  const P=new Uint8Array(512);const a=[...Array(256).keys()];let s=seed;
+  for(let i=255;i>0;i--){s=(s*16807)%2147483647;const j=s%(i+1);[a[i],a[j]]=[a[j],a[i]];}
+  for(let i=0;i<512;i++)P[i]=a[i&255];
+  const f=t=>t*t*(3-2*t),h=(x,y)=>P[P[x&255]+(y&255)]/255;
+  const n=(x,y)=>{const X=Math.floor(x),Y=Math.floor(y),u=f(x-X),v=f(y-Y);
+    return (h(X,Y)*(1-u)+h(X+1,Y)*u)*(1-v)+(h(X,Y+1)*(1-u)+h(X+1,Y+1)*u)*v;};
+  return (x,y,o=5)=>{let t=0,A=.5,F=1;for(let i=0;i<o;i++){t+=A*n(x*F,y*F);A*=.5;F*=2;}return t;};
+}
+function beMat(ve){
+  const W2=256,H2=128,c=document.createElement('canvas');c.width=W2;c.height=H2;
+  const x=c.getContext('2d'),im=x.createImageData(W2,H2);
+  for(let j=0;j<H2;j++)for(let i=0;i<W2;i++){const [r,g,b]=ve(i/W2,j/H2),k=(j*W2+i)*4;im.data[k]=r;im.data[k+1]=g;im.data[k+2]=b;im.data[k+3]=255;}
+  x.putImageData(im,0,0);return canvasTex(c);
+}
+const n1=nhieu(7),n2=nhieu(41),n3=nhieu(99);
+const tron=(a,b,t)=>a.map((v,i)=>v+(b[i]-v)*t);
+const texDat=beMat((u,v)=>{ // Trái Đất: biển xanh, lục địa xanh lá/nâu, mây trắng, cực băng
+  const lat=Math.abs(v-.5)*2, d=n1(u*6,v*3.4), may=n2(u*9,v*5);
+  let m=d>.53?tron([72,122,62],[150,128,86],Math.min(1,(d-.53)*6)):tron([22,74,140],[40,112,176],d/.53);
+  if(lat>.86) m=[236,242,246];
+  if(may>.6) m=tron(m,[250,250,252],Math.min(1,(may-.6)*4));
+  return m;});
+const texHoa=beMat((u,v)=>{ // Sao Hỏa: đỏ gỉ, mảng sẫm
+  const d=n2(u*7,v*4), e=n3(u*16,v*9);
+  let m=tron([196,98,52],[150,62,36],Math.max(0,Math.min(1,(d-.42)*3)));
+  m=tron(m,[222,140,90],Math.max(0,e-.62)*2);
+  if(Math.abs(v-.5)>.46) m=[240,226,214];
+  return m;});
+const texTho=beMat((u,v)=>{ // Sao Thổ: dải vàng kem dịu
+  const w=v+(n3(u*6,v*5)-.5)*.03, b=Math.sin(w*Math.PI*11)*.5+.5;
+  return tron([236,214,168],[196,160,104],b*b*.8);});
+function vanhDai(ht,co){ // vành đai nhiều lớp, trong suốt dần
+  const c=document.createElement('canvas');c.width=c.height=512;const x=c.getContext('2d'),R=256;
+  const trong=1.3/2.3; // bán kính trong / ngoài
+  for(let i=0;i<220;i++){const t=i/220,r=R*(trong+(1-trong)*t);
+    const gap=(t>.58&&t<.63)?.08:1, a=(.62+.3*Math.sin(t*38)*Math.sin(t*9)**2+.12*Math.random())*gap*(1-Math.pow(t,8));
+    x.strokeStyle=`rgba(${214-60*t|0},${178-70*t|0},${120-50*t|0},${Math.max(0,Math.min(1,a))})`;x.lineWidth=R*(1-trong)/220*1.6;x.beginPath();x.arc(R,R,r,0,Math.PI*2);x.stroke();}
+  const vd=new THREE.Mesh(new THREE.RingGeometry(co*1.3,co*2.3,128),new THREE.MeshStandardMaterial({map:canvasTex(c),transparent:true,side:THREE.DoubleSide,roughness:.9,depthWrite:false}));
+  vd.rotation.x=-Math.PI/2+.42;ht.add(vd);return vd;
+}
+const hanhTinh=[];
+// [bán kính vòng, góc nghiêng, tốc độ, cỡ hành tinh, bề mặt, tên]
+[[2.15,[1.22,.22,0],.5,.19,texDat],[2.45,[1.05,-.45,.25],.36,.16,texHoa],[2.75,[1.38,.12,-.3],.26,.19,texTho]].forEach(([r,rot,tocDo,co,tex],i)=>{
   const g=new THREE.Group();g.rotation.set(...rot);
-  g.add(new THREE.Mesh(new THREE.TorusGeometry(r,.011,12,220),vang));
-  const bi=new THREE.Mesh(new THREE.SphereGeometry(.055,24,24),vang);bi.position.set(r,0,0);g.add(bi);
-  g.userData.r=r;vongHat.add(g);
+  g.add(new THREE.Mesh(new THREE.TorusGeometry(r,.009,12,240),vang));
+  const ht=new THREE.Mesh(new THREE.SphereGeometry(co,48,32),new THREE.MeshStandardMaterial({map:tex,roughness:.85,metalness:0}));
+  ht.rotation.x=-rot[0];g.add(ht);if(tex===texTho)vanhDai(ht,co);
+  g.userData={r,tocDo,lech:i*2.1};vongHat.add(g);hanhTinh.push(ht);
 });
 
 /* ---------- chữ tiếng Anh bay quanh (Montserrat) ---------- */
-const CHU=[['How often do you read books?','#1c2431'],['She is playing the piano now.','#2f6b55'],['They didn’t go to school yesterday.','#b8893a'],['Where will you live in the future?','#46648f'],['My brother can’t swim very well.','#1c2431'],['Does your father usually cook dinner?','#2f6b55'],['We were at the library last night.','#b8893a'],['What is your best friend doing?','#46648f']];
-const CUM=[['twice a week','#b8893a'],['at the weekend','#2f6b55'],['a lot of homework','#1c2431'],['in the morning','#46648f'],['next summer','#b8893a'],['on the table','#2f6b55'],['every day','#1c2431'],['right now','#46648f'],['How much…?','#b8893a'],['last year','#2f6b55'],['because','#1c2431'],['these books','#46648f']];
+const CHU=[['Is there any milk in the fridge?','#9c5b67'],['He never gets up late on Sundays.','#3b7a7d'],['Whose bag is this? It’s Linh’s.','#1c2431'],['Are they watching TV at the moment?','#b8893a'],['How often do you read books?','#1c2431'],['She is playing the piano now.','#2f6b55'],['They didn’t go to school yesterday.','#b8893a'],['Where will you live in the future?','#46648f'],['My brother can’t swim very well.','#1c2431'],['Does your father usually cook dinner?','#2f6b55'],['We were at the library last night.','#b8893a'],['What is your best friend doing?','#46648f']];
+const CUM=[['twice a week','#b8893a'],['at the weekend','#2f6b55'],['a lot of homework','#1c2431'],['in the morning','#46648f'],['next summer','#b8893a'],['on the table','#2f6b55'],['every day','#1c2431'],['right now','#46648f'],['How much…?','#b8893a'],['last year','#2f6b55'],['because','#1c2431'],['these books','#46648f'],['Are you ready?','#9c5b67'],['Yes, I can.','#2f6b55'],['No, she isn’t.','#b8613f'],['my favourite subject','#46648f'],['What time is it?','#1c2431'],['at 7 o’clock','#b8893a'],['in front of the house','#3b7a7d'],['some water','#2f6b55'],['an orange','#b8613f'],['How old are you?','#46648f'],['usually','#9c5b67'],['my father’s car','#1c2431']];
 const chus=[];
 function bongChu(s,mau){
   const f=42,c=document.createElement('canvas'),x=c.getContext('2d');
@@ -100,8 +145,8 @@ function bongChu(s,mau){
   const k=diDong?.0036:.0027;sp.scale.set(c.width*k,c.height*k,1);return sp;
 }
 document.fonts.load('700 50px "Montserrat"').catch(()=>{}).then(()=>{
-  (diDong?CHU.slice(0,4):CHU).forEach(([s,m])=>{const sp=bongChu(s,m);sp.userData={nhom:'dai'};halo.add(sp);chus.push(sp);});
-  (diDong?[]:CUM).forEach(([s,m])=>{const sp=bongChu(s,m);sp.scale.multiplyScalar(.9);sp.userData={nhom:'ngan'};halo.add(sp);chus.push(sp);});
+  CHU.forEach(([s,m])=>{const sp=bongChu(s,m);sp.userData={nhom:'dai'};halo.add(sp);chus.push(sp);});
+  CUM.forEach(([s,m])=>{const sp=bongChu(s,m);sp.scale.multiplyScalar(.9);sp.userData={nhom:'ngan'};halo.add(sp);chus.push(sp);});
 });
 
 /* ---------- dụng cụ học tập bay khắp trang (bo tròn, không đầu nhọn) ---------- */
@@ -197,7 +242,7 @@ function datKhung(){
   const v=new THREE.Vector3(nx,ny,.5).unproject(camera).sub(camera.position).normalize();
   tam.copy(camera.position).addScaledVector(v,-camera.position.z/v.z);
   const cao=2*Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*camera.position.z;
-  tyLe=(r.height/innerHeight)*cao*.6/H;
+  tyLe=(r.height/innerHeight)*cao*(innerWidth<900?.6:.55)/H;
 }
 function nuaKhung(z){const d=camera.position.z-z,h=Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*d;return[h*camera.aspect,h];}
 
@@ -233,13 +278,14 @@ function lap(){
   xoay.rotation.x=.08+smy*.22-cuon*.2+(1-e)*.5;
   xoay.rotation.z=-.05;
   bong.material.opacity=.45*e*(1-Math.min(1,cuon*2));
-  vongHat.children.forEach((g,i)=>{const w=t*(i?.45:.62)+i*2;g.children[1].position.set(Math.cos(w)*g.userData.r,Math.sin(w)*g.userData.r,0);g.visible=e>.25;});
+  vongHat.children.forEach(g=>{const u=g.userData,w=t*u.tocDo+u.lech;g.children[1].position.set(Math.cos(w)*u.r,Math.sin(w)*u.r,0);g.visible=e>.25;});
+  hanhTinh.forEach((h,i)=>h.rotation.y=i===2?.35+Math.sin(t*.3)*.25:t*(.5+i*.15));
   // 5 ô quanh sách: 2 ô câu dài (trên/dưới) + 3 ô cụm ngắn (hai bên); mỗi ô lần lượt hiện rồi mờ, lệch nhịp nhau
   if(chus.length){
-    const P=4.2, O=[['dai',-.15,1.74,0],['dai',.25,-1.6,.5],['ngan',1.42,.78,.2],['ngan',1.5,-.62,.7],['ngan',-1.2,1.3,.45]];
+    const P=4.2, O=[['dai',-.15,1.74,0],['dai',.25,-1.6,.5],['ngan',1.42,.78,.2],['ngan',1.5,-.62,.7],['ngan',-1.2,1.3,.45],['ngan',-1.42,-.9,.9]];
     chus.forEach(c=>c.material.opacity=0);
     const dai=chus.filter(c=>c.userData.nhom==='dai'), ngan=chus.filter(c=>c.userData.nhom==='ngan');
-    const dem={dai:0,ngan:0}, soO={dai:2,ngan:3};
+    const dem={dai:0,ngan:0}, soO={dai:2,ngan:4};
     O.forEach(([nh,x,y,lech])=>{
       const ds=nh==='dai'?dai:ngan; if(!ds.length) return;
       const thu=dem[nh]++, ts=t+lech*P, n=Math.floor(ts/P), ph=(ts%P)/P;
