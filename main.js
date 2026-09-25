@@ -81,6 +81,47 @@ addEventListener('wheel',e=>{
 },{passive:false});
 $$('[data-toi]').forEach(b=>b.addEventListener('click',()=>$('#'+b.dataset.toi).scrollIntoView({behavior:'smooth'})));
 
+/* ---------- điện thoại: mỗi màn tự thu nhỏ cho VỪA KHÍT chiều cao thật của máy ----------
+   (Chrome/Safari trên iPhone chiếm mất đáy màn hình ⇒ vùng thấy được thấp hơn nhiều so với màn hình;
+   đo bằng 100svh = chiều cao nhỏ nhất khi thanh trình duyệt hiện đủ; chừa chỗ thanh tiêu đề + nút Tiếp tục) */
+const doCao=document.createElement('div');
+doCao.style.cssText='position:fixed;left:0;top:0;width:0;height:100vh;height:100svh;visibility:hidden;pointer-events:none';
+document.body.appendChild(doCao);
+function vuaMan(){
+  const dt=innerWidth<=700, H=doCao.offsetHeight||innerHeight;
+  secs.forEach(s=>{
+    const w=s.querySelector(':scope>.wrap'); if(!w) return;
+    Object.assign(w.style,{transform:'',transformOrigin:'',width:'',marginLeft:'',marginBottom:'',flex:''});
+    if(!dt){vuaBang();return;}
+    const cs=getComputedStyle(s), A=H-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom)-6;
+    vuaBang();let h=w.offsetHeight; w._h=h; if(h<=A) return;
+    w.style.flex='none';
+    const rong=z=>{w.style.width=(100/z)+'%';w.style.marginLeft=(-(1/z-1)*50)+'%';vuaBang();return w.offsetHeight;};
+    // tìm mức thu lớn nhất vẫn vừa (khung nới rộng cho đủ bề ngang); có khối giữ tỉ lệ (thẻ game) thì nới rộng lại cao thêm
+    // ⇒ không vừa được ⇒ chỉ thu nhỏ, giữ bề rộng cũ (khung hẹp lại một chút ở giữa)
+    let lo=.5,hi=1,z=0;
+    for(let i=0;i<14;i++){const m=(lo+hi)/2;if(rong(m)*m<=A){z=m;lo=m;}else hi=m;}
+    if(z){h=rong(z);}
+    else{w.style.width='';w.style.marginLeft='';vuaBang();h=w.offsetHeight;z=A/h;}
+    w._h=h;Object.assign(w.style,{transformOrigin:'50% 0',transform:`scale(${z.toFixed(4)})`,marginBottom:(-(1-z)*h)+'px'});
+  });
+}
+// bảng Theo dõi: rộng hơn khung ⇒ thu cả bảng cho vừa bề ngang (chỉ làm bảng thấp đi ⇒ màn vẫn vừa)
+function vuaBang(){
+  const t=document.querySelector('.tl-wrap'),b=t&&t.querySelector('table'); if(!b) return;
+  Object.assign(b.style,{transform:'',transformOrigin:''});t.style.height='';t.style.overflow='';
+  if(innerWidth>700||b.offsetWidth<=t.clientWidth+1) return;
+  const k=t.clientWidth/b.offsetWidth;
+  Object.assign(b.style,{transformOrigin:'0 0',transform:`scale(${k.toFixed(4)})`});
+  t.style.height=(b.offsetHeight*k)+'px';t.style.overflow='hidden';
+  const w=t.closest('.wrap'); if(w&&w._h!=null) w._h=w.offsetHeight;
+}
+let henVua=null;const vuaSau=()=>{clearTimeout(henVua);henVua=setTimeout(vuaMan,120);};
+addEventListener('resize',vuaSau);addEventListener('orientationchange',vuaSau);
+// nội dung đổi cao sau khi đã đo (font, ảnh, chữ xuống dòng) ⇒ đo lại
+if(window.ResizeObserver){const ro=new ResizeObserver(()=>{if(secs.some(s=>{const w=s.querySelector(':scope>.wrap');return w&&w._h!=null&&Math.abs(w.offsetHeight-w._h)>1;}))vuaSau();});secs.forEach(s=>{const w=s.querySelector(':scope>.wrap');if(w)ro.observe(w);});}
+document.fonts.ready.then(vuaMan);addEventListener('load',vuaMan);vuaMan();
+
 /* ---------- quạt trang sách ---------- */
 const NHOM={hanhtrinh:['005','003','009','030','185','225'],tuvung:['044','045','059','004','055','001'],baitap:['036','055','171','186','031','030']};
 const quat=$('#quat');
