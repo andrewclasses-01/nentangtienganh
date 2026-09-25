@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Nền Tảng Tiếng Anh K10 — Andrew Classes</title>
+<meta name="description" content="Khóa Nền Tảng Tiếng Anh K10 của thầy Andrew: nền tảng ngữ pháp quan trọng nhất từ lớp 1 đến hết lớp 7 trong 8 tháng. Hoàn 100% học phí trong 3 tháng đầu.">
+<meta name="theme-color" content="#f6f2ea">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Baloo+2:wght@600;700;800&family=Patrick+Hand&display=swap&subset=vietnamese" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></symbol>
+    <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 13 5.2 3.5a.5.5 0 0 0 .8-.4V7.9a.5.5 0 0 0-.8-.4L16 11"/><rect x="2" y="6" width="14" height="12" rx="2"/></symbol>
+    <symbol id="i-app" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M12 18h.01"/></symbol>
+    <symbol id="i-game" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 11h4M8 9v4M15 12h.01M18 10h.01"/><path d="M17.3 5H6.7a4 4 0 0 0-4 3.6l-.7 6.2A3 3 0 0 0 5 18c1 0 1.9-.5 2.5-1.3L9 15h6l1.5 1.7A3 3 0 0 0 19 18a3 3 0 0 0 3-3.2l-.7-6.2A4 4 0 0 0 17.3 5z"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.7 9a1 1 0 0 1-.6 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.2-2.7a1.2 1.2 0 0 1 1.6 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-unlock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol>
+    <symbol id="i-pen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.4 3.6a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4z"/></symbol>
+    <symbol id="i-hand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0M14 10V4a2 2 0 0 0-4 0v2M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.9-6-2.4l-3.6-3.6a2 2 0 0 1 2.8-2.8L7 15"/></symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.7V17c0 .6-.5 1-1 1.2C7.8 18.8 7 20.2 7 22M14 14.7V17c0 .6.5 1 1 1.2 1.2.6 2 2 2 3.8"/><path d="M18 2H6v7a6 6 0 0 0 12 0z"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+  </defs>
+</svg>
+
+<div class="loader" id="loader"><div><div class="loader-in">ANDREW CLASSES</div><div class="loader-bar"><i id="loaderBar"></i></div></div></div>
+
+<div class="sky" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<canvas id="scene" aria-hidden="true"></canvas>
+
+<header class="nav" id="nav">
+  <a href="#hero" class="brand"><span class="brand-mark">A</span><span><small>ANDREW CLASSES</small><b>Nền Tảng Tiếng Anh</b></span></a>
+</header>
+
+<nav class="truc" id="truc" aria-label="Các phần của trang"><span class="chay" id="trucChay"></span></nav>
+
+<a href="#dangky" class="fab an" id="fab"><span class="fab-ring"></span><span class="btn btn-main"><svg><use href="#i-pen"/></svg>Đăng ký cho con</span></a>
+
+<main>
+
+<!-- 1 · MỞ ĐẦU -->
+<section class="hero" id="hero" data-ten="Mở đầu" data-c="var(--sun)">
+  <div class="wrap">
+    <div>
+      <span class="k10 rv"><b>K10</b>Khóa thứ 10</span>
+      <h1 class="rv" data-d="1"><span class="to">Nền Tảng</span><span class="d2">Tiếng Anh</span></h1>
+      <p class="phu rv" data-d="2">Ngữ pháp quan trọng nhất <b class="lien">từ lớp 1 đến hết lớp 7</b><br>trong <b>8 tháng</b>.</p>
+      <div class="bao rv" data-d="3"><span class="kh"><svg><use href="#i-shield"/></svg></span>Hoàn 100% học phí trong 3 tháng đầu</div>
+      <div class="hero-cta rv" data-d="4">
+        <a href="#dangky" class="btn btn-main"><svg><use href="#i-pen"/></svg>Đăng ký cho con</a>
+      </div>
+    </div>
+    <div class="hero-stage" id="heroStage"><div class="hero-hint rv" data-d="5"><svg><use href="#i-hand"/></svg>Kéo để xoay sách</div></div>
+  </div>
+  <button class="cuon-xuong" data-toi="thay" aria-label="Xem tiếp"><svg><use href="#i-down"/></svg></button>
+</section>
+
+<!-- 2 · CỦA THẦY -->
+<section id="thay" data-ten="Của Thầy" data-c="var(--coral)">
+  <div class="wrap">
+    <div class="center"><span class="nhan rv" style="--c:var(--coral)">Một người thầy</span>
+    <h2 class="tt rv" data-d="1">Tất cả đều từ <span class="to">một người Thầy</span></h2></div>
+    <div class="thay">
+      <div class="thay-anh rv" data-d="2"><img src="assets/teacher.jpg" alt="Thầy Andrew" loading="lazy"><div class="ten"><b>Thầy Andrew</b></div></div>
+      <div>
+        <div class="cua">
+          <div class="o the rv" data-d="2" style="--c:var(--sun)"><div class="ic"><svg><use href="#i-book"/></svg></div><small>226 trang</small><b>Sách của Thầy</b></div>
+          <div class="o the rv" data-d="3" style="--c:var(--coral)"><div class="ic"><svg><use href="#i-video"/></svg></div><small>1.400+ phút giảng</small><b>Bài giảng của Thầy</b></div>
+          <div class="o the rv" data-d="4" style="--c:var(--sky)"><div class="ic"><svg><use href="#i-app"/></svg></div><small>Web học</small><b>App của Thầy</b></div>
+          <div class="o the rv" data-d="5" style="--c:var(--grape)"><div class="ic"><svg><use href="#i-game"/></svg></div><small>167 bài luyện</small><b>Game của Thầy</b></div>
+          <div class="o the rv" data-d="6" style="--c:var(--mint)"><div class="ic"><svg><use href="#i-chart"/></svg></div><small>Từng phút luyện tập</small><b>Hệ thống quản lý của Thầy</b></div>
+        </div>
+        <div class="dong rv" data-d="7"><span class="xich"><i style="background:var(--sun)"></i><i style="background:var(--coral)"></i><i style="background:var(--sky)"></i><i style="background:var(--grape)"></i><i style="background:var(--mint)"></i></span>Cùng một người Thầy — đồng bộ từng chi tiết.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · SÁCH -->
+<section id="sach" data-ten="Sách" data-c="var(--pink)">
+  <div class="wrap">
+    <div class="center"><span class="nhan rv" style="--c:var(--pink)">Sách của Thầy</span>
+    <h2 class="tt rv" data-d="1">Viết riêng cho <span class="to">hành trình này</span></h2></div>
+    <div class="sach">
+      <div>
+        <div class="quat" id="quat"></div>
+        <div class="quat-nut" id="quatNut">
+          <button data-nhom="hanhtrinh" class="on" style="--c:var(--pink)">Hành trình</button>
+          <button data-nhom="tuvung" style="--c:var(--pink)">Từ vựng</button>
+          <button data-nhom="baitap" style="--c:var(--pink)">Bài tập</button>
+        </div>
+      </div>
+      <div class="hs-anh rv" data-d="2"><span class="nhan-dan">Sách in</span><img src="assets/student-book.jpg" alt="Học viên cầm sách Nền Tảng Tiếng Anh" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · LỘ TRÌNH -->
+<section id="lotrinh" data-ten="Lộ trình" data-c="var(--grape)">
+  <div class="wrap">
+    <div class="center"><span class="nhan rv" style="--c:var(--grape)">8 tháng</span>
+    <h2 class="tt rv" data-d="1">Lộ trình <span class="to-b">từng bước</span></h2></div>
+    <div class="lt" id="lt">
+      <svg class="duong" id="ltDuong" aria-hidden="true"></svg>
+      <div class="ch the rv" data-d="1" style="--c:var(--sun)"><span class="sn">1</span><div><b>Khởi hành</b><span>L1 – L3 · mục tiêu, từ vựng</span></div></div>
+      <div class="ch the rv" data-d="2" style="--c:var(--orange)"><span class="sn">2</span><div><b>Danh từ</b><span>L4 – L8</span></div></div>
+      <div class="ch the rv" data-d="3" style="--c:var(--coral)"><span class="sn">3</span><div><b>Chủ ngữ & sở hữu</b><span>L9 – L10</span></div></div>
+      <div class="ch the rv" data-d="6" style="--c:var(--grape)"><span class="sn">6</span><div><b>Động từ đặc biệt</b><span>L20 – L23 · can, be</span></div></div>
+      <div class="ch the rv" data-d="5" style="--c:var(--sky)"><span class="sn">5</span><div><b>Đặt câu hỏi</b><span>L16 – L19</span></div></div>
+      <div class="ch the rv" data-d="4" style="--c:var(--pink)"><span class="sn">4</span><div><b>Động từ & thời gian</b><span>L11 – L15</span></div></div>
+      <div class="ch the rv" data-d="7" style="--c:var(--teal)"><span class="sn">7</span><div><b>Gia vị cho câu</b><span>L24 – L25</span></div></div>
+      <div class="ch the rv" data-d="8" style="--c:var(--mint)"><span class="sn">8</span><div><b>Chinh phục các thì</b><span>L26 – L30</span></div></div>
+      <div class="ch the dich rv" data-d="8"><span class="sn"><svg><use href="#i-flag"/></svg></span><div><b>Về đích</b><span>L31 – L32 · ôn tập</span></div></div>
+    </div>
+    <div class="thi rv" data-d="8">
+      <span style="--c:var(--coral)">She plays.</span><span style="--c:var(--sky)">She is playing.</span><span style="--c:var(--grape)">She played.</span><span style="--c:var(--mint)">She will play.</span>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · MỘT BÀI HỌC -->
+<section id="motbai" data-ten="Một bài học" data-c="var(--sky)">
+  <div class="wrap">
+    <div class="center"><span class="nhan rv" style="--c:var(--sky)">Một bài học</span>
+    <h2 class="tt rv" data-d="1">Học thế nào <span class="to-b">mỗi ngày?</span></h2></div>
+    <div class="mb" id="mb">
+      <div class="buoc-ds">
+        <button class="buoc on" style="--c:var(--coral)"><span class="sb">1</span><b>Xem bài giảng</b><i class="tien"></i></button>
+        <button class="buoc" style="--c:var(--orange)"><span class="sb">2</span><b>Mở khoá bài tập</b><i class="tien"></i></button>
+        <button class="buoc" style="--c:var(--sky)"><span class="sb">3</span><b>Luyện bằng game</b><i class="tien"></i></button>
+        <button class="buoc" style="--c:var(--mint)"><span class="sb">4</span><b>Đạt 100% mới đi tiếp</b><i class="tien"></i></button>
+        <button class="buoc" style="--c:var(--pink)"><span class="sb">5</span><b>Làm bài trong sách</b><i class="tien"></i></button>
+        <button class="buoc" style="--c:var(--grape)"><span class="sb">6</span><b>Thầy xem từng câu</b><i class="tien"></i></button>
+      </div>
+      <div class="may">
+        <div class="may-dau"><i></i><i></i><i></i><span>andrewclasses.com · Lesson 20</span></div>
+        <div class="man">
+          <div class="canh on"><div class="c-video">
+            <div class="vd"><img src="assets/video-thumb-20.jpg" alt="" loading="lazy"><div class="play"></div><div class="thanh"><i></i></div></div>
+            <div class="doan-ds">
+              <div class="doan"><i style="--w:100%"></i><span class="t">Ôn lại bài trước</span></div>
+              <div class="doan"><i style="--w:100%"></i><span class="t">“Can” nghĩa là gì?</span></div>
+              <div class="doan"><i style="--w:100%"></i><span class="t">Câu khẳng định với can</span></div>
+              <div class="doan"><i style="--w:64%;--g:var(--sky)"></i><span class="t">Câu phủ định: cannot</span></div>
+              <div class="doan khoa"><i></i><span class="t">Câu hỏi với can</span></div>
+              <div class="doan khoa"><i></i><span class="t">Hướng dẫn bài tập 1</span></div>
+            </div>
+          </div></div>
+          <div class="canh"><div class="c-khoa">
+            <div class="kr mo"><div class="kic"><svg><use href="#i-video"/></svg></div><b>Đoạn “Hướng dẫn bài tập 1”</b><span class="tg">ĐÃ XEM</span></div>
+            <div class="kr mo mo-dan"><div class="kic"><svg><use href="#i-unlock"/></svg></div><b>BT1 · Quiz 60 câu</b><span class="tg">MỞ KHOÁ</span></div>
+            <div class="kr dong"><div class="kic"><svg><use href="#i-lock"/></svg></div><b>BT2 · Gõ đáp án 30 câu</b><span class="tg">KHOÁ</span></div>
+            <div class="kr dong"><div class="kic"><svg><use href="#i-lock"/></svg></div><b>Trắc nghiệm bài giảng</b><span class="tg">KHOÁ</span></div>
+          </div></div>
+          <div class="canh"><div class="c-type">
+            <div class="hd">Câu 7 / 30</div>
+            <div class="cau">Tôi có thể bơi rất nhanh.</div>
+            <div class="o" id="goO"><span id="goChu"></span><span class="caret"></span></div>
+            <div class="kq" id="goKq">✓ Chính xác!</div>
+          </div></div>
+          <div class="canh"><div class="c-full">
+            <div class="vong"><svg viewBox="0 0 160 160"><circle class="nen" cx="80" cy="80" r="70"/><circle class="chay" cx="80" cy="80" r="70"/></svg><b>100%</b></div>
+            <div class="luot"><span>Lượt 1 · 80%</span><span>Lượt 2 · 93%</span><span>Lượt 3 · 100%</span></div>
+          </div></div>
+          <div class="canh"><div class="c-sach">
+            <img src="assets/page-055.jpg" alt="" loading="lazy">
+            <div class="cam"><svg><use href="#i-camera"/></svg></div>
+          </div></div>
+          <div class="canh"><div class="c-xem">
+            <div class="bl h"><span>#</span><span>CON GÕ</span><span>ĐÁP ÁN</span><span></span><span style="text-align:right">GIÂY</span></div>
+            <div class="bl"><span>3</span><span class="go">She can swims.</span><span class="da">She can swim.</span><span class="x">✗</span><span class="gi">14 s</span></div>
+            <div class="bl"><span>7</span><span class="go">I can to swim.</span><span class="da">I can swim.</span><span class="x">✗</span><span class="gi">21 s</span></div>
+            <div class="bl"><span>12</span><span class="go ok">They cannot cook.</span><span class="da">They cannot cook.</span><span class="v">✓</span><span class="gi">9 s</span></div>
+            <div class="bl"><span>18</span><span class="go">He don't can dance.</span><span class="da">He cannot dance.</span><span class="x">✗</span><span class="gi">25 s</span></div>
+            <div class="bl"><span>21</span><span class="go ok">Can you help me?</span><span class="da">Can you help me?</span><span class="v">✓</span><span class="gi">7 s</span></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 · GAME -->
+<section id="game" data-ten="Game" data-c="var(--teal)">
+  <div class="wrap">
+    <div class="center"><span class="nhan rv" style="--c:var(--teal)">Game của Thầy</span>
+    <h2 class="tt rv" data-d="1">Học mà <span class="to-g">như chơi</span></h2></div>
+    <div class="game-grid">
+      <div class="g the rv" data-d="1" data-tilt style="--c:#5b4de0"><div class="g-man" style="--gbg:linear-gradient(160deg,#3b4a63,#232d3e)"><div class="gq"><div class="tb"><i></i></div><div class="q">She ___ swim well.</div><div class="opts"><span>cans</span><span>is can</span><span class="dung">can</span><span>can to</span></div></div></div><div class="g-ten"><h3>Quiz</h3><span class="sl">51 bài</span></div></div>
+      <div class="g the rv" data-d="2" data-tilt style="--c:var(--sky)"><div class="g-man" style="--gbg:linear-gradient(160deg,#4a6891,#2c4466)"><div class="gt"><div class="q">Cô ấy không thích cá.</div><div class="o"><span>She doesn't like fish.</span></div></div></div><div class="g-ten"><h3>Type the answer</h3><span class="sl">52 bài</span></div></div>
+      <div class="g the rv" data-d="3" data-tilt style="--c:var(--grape)"><div class="g-man" style="--gbg:linear-gradient(160deg,#6b6388,#443e5f)"><div class="ga2"><div class="o"><b style="--dx:40px;--r:20deg">A</b><b style="--dx:-30px;--r:-25deg">P</b><b style="--dx:20px;--r:15deg">P</b><b style="--dx:-50px;--r:-10deg">L</b><b style="--dx:30px;--r:30deg">E</b></div></div></div><div class="g-ten"><h3>Anagram</h3><span class="sl">46 bài</span></div></div>
+      <div class="g the rv" data-d="1" data-tilt style="--c:var(--mint)"><div class="g-man"><div class="gu"><div class="hang"><b>She</b><b>goes</b><b>to</b><b>school.</b></div><div class="pf">PERFECT ×2</div></div></div><div class="g-ten"><h3>Unjumble</h3><span class="sl">9 bài</span></div></div>
+      <div class="g the rv" data-d="2" data-tilt style="--c:var(--teal)"><div class="g-man" style="--gbg:linear-gradient(160deg,#3b7a64,#244f40)"><div class="gs"><div class="bang"></div><span class="tu">apple</span><span class="tu">water</span><span class="tu">book</span><div class="ro a">ĐẾM ĐƯỢC</div><div class="ro b">KHÔNG ĐẾM ĐƯỢC</div></div></div><div class="g-ten"><h3>Speed sorting</h3><span class="sl">7 bài</span></div></div>
+      <div class="g the rv" data-d="3" data-tilt style="--c:var(--orange)"><div class="g-man" style="--gbg:linear-gradient(160deg,#e9dcc3,#d4c09b)"><div class="gb"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div></div><div class="g-ten"><h3>Open the box</h3><span class="sl">2 bài</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · XẾP HẠNG -->
+<section id="xephang" data-ten="Xếp hạng" data-c="var(--sun)">
+  <div class="wrap">
+    <div class="xh">
+      <div>
+        <span class="nhan rv" style="--c:var(--orange)">Đường đua</span>
+        <h2 class="tt rv" data-d="1">Thi đua <span class="to">mỗi ngày</span></h2>
+        <p class="phu rv" data-d="2">Luyện lại càng nhiều, hạng càng cao.</p>
+        <div class="cup rv" data-d="3"><svg><use href="#i-trophy"/></svg></div>
+      </div>
+      <div class="bang-xh the rv" data-d="2">
+        <div class="bxh-dau"><span>BT2 · Câu với “can”</span><span class="live"><i></i>TRỰC TIẾP</span></div>
+        <div class="bxh" id="bxh"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 · THEO DÕI -->
+<section id="theodoi" data-ten="Theo dõi" data-c="var(--mint)">
+  <div class="wrap">
+    <div class="center"><span class="nhan rv" style="--c:var(--mint)">Hệ thống quản lý của Thầy</span>
+    <h2 class="tt rv" data-d="1">Đếm <span class="to-g">từng phút</span> con luyện tập</h2></div>
+    <div class="dg the rv" data-d="2" id="dg">
+      <div class="dg-tab" id="dgTab">
+        <button data-p="0" class="on">THỜI LƯỢNG</button>
+        <button data-p="1">TIẾN BỘ</button>
+        <button data-p="2">BÀI NỘP</button>
+        <span class="bai">Lesson 20 · CAN</span>
+      </div>
+      <div class="dg-panel on"><div class="tl-wrap"><table class="tl">
+        <thead><tr><th>Học sinh</th><th>VIDEO</th><th>BT1</th><th>BT2</th><th>TRẮC NGHIỆM</th><th>TỔNG</th></tr></thead>
+        <tbody id="tlBody"></tbody></table></div></div>
+      <div class="dg-panel">
+        <div class="o-so"><div><small>Tổng luyện tập</small><b>2 giờ 36 phút</b></div><div><small>Xem bài giảng</small><b>98%</b></div><div><small>Lượt làm bài</small><b>16</b></div><div><small>Ngày học</small><b>4</b></div></div>
+        <div class="dg-2">
+          <div class="bieu"><h5>Phút mỗi ngày</h5><div class="cot" id="cot"></div></div>
+          <div class="bieu tien-trien"><h5>Điểm qua từng lượt</h5><svg viewBox="0 0 400 170" preserveAspectRatio="none" id="ttSvg"></svg></div>
+        </div>
+      </div>
+      <div class="dg-panel"><div class="dg-nop">
+        <div class="nop"><div class="ang"><img src="assets/page-055.jpg" alt="" loading="lazy"></div><b>Minh Anh</b><small>3/3 trang · 27/9</small></div>
+        <div class="nop"><div class="ang"><img src="assets/page-171.jpg" alt="" loading="lazy"></div><b>Gia Bảo</b><small>3/3 trang · 27/9</small></div>
+        <div class="nop"><div class="ang"><img src="assets/page-186.jpg" alt="" loading="lazy"><span class="tre">TRỄ</span></div><b>Khánh Linh</b><small>2/3 trang · 30/9</small></div>
+        <div class="nop"><div class="ang"><img src="assets/page-036.jpg" alt="" loading="lazy"></div><b>Đức Huy</b><small>3/3 trang · 28/9</small></div>
+      </div></div>
+      <div class="minh-hoa">Tên và số liệu minh hoạ</div>
+    </div>
+    <div class="dg-y rv" data-d="3"><span style="--c:var(--sky)"><i></i>Xem bài giảng bao nhiêu %</span><span style="--c:var(--mint)"><i></i>Luyện bao nhiêu phút</span><span style="--c:var(--coral)"><i></i>Sai ở câu nào</span></div>
+  </div>
+</section>
+
+<!-- 3 · CON SỐ -->
+<section id="so" data-ten="Con số" data-c="var(--orange)">
+  <div class="wrap center">
+    <span class="nhan rv" style="--c:var(--orange)">Khóa học</span>
+    <h2 class="tt rv" data-d="1">Qua những <span class="to">con số</span></h2>
+    <div class="so-grid">
+      <div class="so the rv" data-d="1" style="--c:var(--coral)"><div class="n" data-dem="8">0</div><div class="d">tháng học</div></div>
+      <div class="so the rv" data-d="2" style="--c:var(--orange)"><div class="n" data-dem="32">0</div><div class="d">bài học</div></div>
+      <div class="so the rv" data-d="3" style="--c:var(--sky)"><div class="n"><span data-dem="1400">0</span>+</div><div class="d">phút bài giảng</div></div>
+      <div class="so the rv" data-d="4" style="--c:var(--grape)"><div class="n" data-dem="226">0</div><div class="d">trang sách</div></div>
+      <div class="so the rv" data-d="5" style="--c:var(--mint)"><div class="n"><span data-dem="400">0</span>+</div><div class="d">từ vựng</div></div>
+      <div class="so the rv" data-d="6" style="--c:var(--pink)"><div class="n" data-dem="167">0</div><div class="d">bài luyện tập</div></div>
+      <div class="so the rv" data-d="7" style="--c:var(--teal)"><div class="n" data-dem="7110">0</div><div class="d">câu hỏi</div></div>
+      <div class="so the rv" data-d="8" style="--c:var(--sun)"><div class="n" data-dem="4">0</div><div class="d">thì cốt lõi</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 · ĐĂNG KÝ -->
+<section id="dangky" data-ten="Đăng ký" data-c="var(--coral)">
+  <div class="wrap">
+    <div class="dk">
+      <div>
+        <span class="nhan rv" style="--c:var(--coral)">Khóa K10</span>
+        <h2 class="tt rv" data-d="1">Đăng ký <span class="to">cho con</span></h2>
+        <div class="cam-ket rv" data-d="2"><span class="khien">100%</span><div><b>Hoàn 100% học phí</b><span>trong 3 tháng đầu</span></div></div>
+        <div class="dk-chip rv" data-d="3"><span>8 tháng</span><span>1.400+ phút bài giảng</span><span>Sách 226 trang</span><span>167 bài luyện tập</span></div>
+      </div>
+      <form class="form rv" data-d="2" id="form" novalidate>
+        <h3>Phiếu đăng ký</h3>
+        <div class="hang2">
+          <div class="fld"><input id="f-ph" name="phuHuynh" placeholder=" " autocomplete="name"><label for="f-ph">Họ tên phụ huynh</label><div class="loi">Nhập họ tên phụ huynh</div></div>
+          <div class="fld"><input id="f-sdt" name="soDienThoai" type="tel" inputmode="tel" placeholder=" " autocomplete="tel"><label for="f-sdt">Số điện thoại / Zalo</label><div class="loi">Số điện thoại chưa đúng</div></div>
+        </div>
+        <div class="hang2">
+          <div class="fld"><input id="f-con" name="tenCon" placeholder=" "><label for="f-con">Họ tên con</label><div class="loi">Nhập họ tên con</div></div>
+          <div class="fld co"><input id="f-ns" name="ngaySinh" type="date" placeholder=" " max="2025-12-31"><label for="f-ns">Ngày sinh của con</label><div class="loi">Chọn ngày sinh</div></div>
+        </div>
+        <div class="hang2 doi">
+          <div class="fld"><input id="f-truong" name="truong" placeholder=" "><label for="f-truong">Trường</label><div class="loi">Nhập tên trường</div></div>
+          <div class="fld"><input id="f-lop" name="lop" placeholder=" "><label for="f-lop">Lớp</label><div class="loi">Nhập lớp</div></div>
+        </div>
+        <label class="tick" id="tick"><input type="checkbox" id="f-ok" name="nguyenVong"><span class="hop"><svg><use href="#i-check"/></svg></span><span>Tôi có nguyện vọng đăng ký lớp Nền Tảng Tiếng Anh của thầy Andrew.</span></label>
+        <input type="text" id="f-web" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="bay">
+        <button class="btn btn-main" type="submit"><svg><use href="#i-pen"/></svg>Gửi đăng ký</button>
+        <div class="gui-loi" id="guiLoi" role="alert"></div>
+        <div class="xong" id="xong"><div>
+          <div class="tickto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <h4 id="xongTieuDe">Đăng ký thành công!</h4>
+          <p id="xongTxt">Thầy Andrew sẽ liên hệ phụ huynh sớm nhất.</p>
+          <button type="button" class="btn btn-soft" id="xongLai">Đăng ký cho con khác</button>
+        </div></div>
+      </form>
+    </div>
+  </div>
+  <div class="chan">© 2026 Andrew Classes</div>
+</section>
+
+</main>
+
+<div class="lb" id="lb"><img alt=""></div>
+<canvas class="conf" id="conf"></canvas>
+
+<script type="module" src="scene.js"></script>
+<script src="main.js" defer></script>
+</body>
+</html>
