@@ -9,8 +9,8 @@ const stage=document.getElementById('heroStage');
 const giam=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const diDong=matchMedia('(max-width: 900px)').matches;
 let daXong=false;
-function xongLoader(){if(daXong)return;daXong=true;loaderEl.classList.add('xong');}
-setTimeout(xongLoader,6000);
+// v16: màn chờ do main.js quản (đợi đủ MỌI ảnh + phông + cảnh 3D); ở đây chỉ báo cảnh 3D đã sẵn sàng
+function xongLoader(){if(daXong)return;daXong=true;window.__canh3d=1;dispatchEvent(new Event('canh3d-xong'));}
 
 let renderer;
 try{renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'});}
@@ -42,7 +42,7 @@ const fill=new THREE.DirectionalLight(0xe8e2d6,.7);fill.position.set(6,-2,4);sce
 
 /* ---------- ảnh ---------- */
 const mgr=new THREE.LoadingManager();
-mgr.onProgress=(u,l,t)=>{bar.style.width=(l/t*100)+'%';};
+mgr.onProgress=(u,l,t)=>{window.__canh3dTien=l/t;dispatchEvent(new Event('canh3d-tien'));};
 const tl=new THREE.TextureLoader(mgr), aniso=renderer.capabilities.getMaxAnisotropy();
 const tai=s=>{const t=tl.load(s);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=aniso;return t;};
 const texFront=tai('assets/cover-front.jpg'),texBack=tai('assets/cover-back.jpg'),texSpine=tai('assets/cover-spine.jpg');
@@ -256,7 +256,8 @@ stage.addEventListener('pointerup',tha);stage.addEventListener('pointercancel',t
 addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5;},{passive:true});
 
 let t0=null;
-mgr.onLoad=()=>{bar.style.width='100%';setTimeout(()=>{xongLoader();t0=performance.now();},250);};
+mgr.onLoad=()=>{xongLoader();const bd=()=>{t0=performance.now();};if(window.__trangHien)bd();else addEventListener('trang-hien',bd,{once:true});};
+mgr.onError=()=>{};
 
 function resize(){renderer.setSize(innerWidth,innerHeight,false);camera.aspect=innerWidth/innerHeight;camera.position.z=innerWidth<900?12:10;camera.updateProjectionMatrix();}
 addEventListener('resize',resize);resize();

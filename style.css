@@ -52,6 +52,7 @@ main{position:relative;z-index:5}
 .loader-in{text-align:center;font-weight:700;font-size:12px;letter-spacing:.34em;color:var(--ink2)}
 .loader-bar{width:160px;height:5px;background:rgba(31,37,71,.08);margin:14px auto 0;border-radius:5px;overflow:hidden}
 .loader-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--mint),var(--sun));transition:width .3s}
+.loader-pt{margin-top:10px;text-align:center;font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--ink3);font-variant-numeric:tabular-nums}
 
 /* ---------- nav ---------- */
 .nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;gap:18px;padding:12px clamp(16px,3vw,34px);transition:background .4s,box-shadow .4s}

@@ -7,7 +7,39 @@ const secs=$$('main>section');
 
 /* ---------- hiện dần ---------- */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
-$$('.rv,#dg').forEach(el=>io.observe(el));
+
+/* ---------- tải trước TOÀN BỘ rồi mới mở trang (v16) ----------
+   đợi: mọi ảnh trên trang + ảnh trang sách của quạt + phông chữ + cảnh 3D; có hạn chót để mạng quá chậm vẫn mở được */
+const TRANG_SACH=['001','003','004','005','009','030','031','036','044','045','055','059','171','185','186','225'];
+function taiTruoc(){
+  const ds=new Set();
+  $$('img[src]').forEach(i=>{const s=i.getAttribute('src');if(s)ds.add(s);});
+  $$('source[srcset]').forEach(x=>ds.add(x.getAttribute('srcset')));
+  TRANG_SACH.forEach(p=>ds.add(`assets/page-${p}.jpg`));
+  const anh=[...ds].map(src=>new Promise(ok=>{const i=new Image();i.onload=i.onerror=()=>ok();i.src=src;
+    if(i.decode)i.decode().then(ok,ok);}));
+  const phong=(document.fonts&&document.fonts.ready)?document.fonts.ready:Promise.resolve();
+  const canh=new Promise(ok=>{if(window.__canh3d||!window.WebGLRenderingContext)return ok();addEventListener('canh3d-xong',ok,{once:true});setTimeout(ok,15000);}); // thư viện 3D không tải được ⇒ thôi, không đợi quá 15 giây
+  const tong=anh.length+2;let xong=0,t3d=0;
+  const bar=$('#loaderBar'),pt=$('#loaderPt');
+  const ve=()=>{const p=Math.min(1,(xong+t3d)/tong);bar.style.width=(p*100)+'%';if(pt)pt.textContent=Math.round(p*100)+'%';};
+  addEventListener('canh3d-tien',()=>{t3d=window.__canh3dTien||0;ve();});
+  const dem=pr=>pr.then(()=>{xong++;ve();});
+  anh.forEach(dem);dem(phong);
+  canh.then(()=>{t3d=1;ve();});
+  return Promise.all([...anh,phong,canh]);
+}
+let daMo=false;
+function moTrang(){
+  if(daMo) return; daMo=true;
+  $('#loaderBar').style.width='100%';
+  setTimeout(()=>{
+    $('#loader').classList.add('xong');window.__trangHien=1;dispatchEvent(new Event('trang-hien'));
+    $$('.rv,#dg').forEach(el=>io.observe(el));        // hiệu ứng hiện dần bắt đầu khi người xem thấy trang
+  },250);
+}
+taiTruoc().then(moTrang);
+setTimeout(moTrang,25000);                             // hạn chót: mạng quá yếu vẫn mở sau 25 giây
 
 /* ---------- số chạy ---------- */
 const ioSo=new IntersectionObserver(es=>es.forEach(e=>{
