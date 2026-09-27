@@ -351,16 +351,21 @@ form.addEventListener('submit',e=>{
   guiDangKy();
 });
 
-/* ---------- gửi phiếu lên Firebase (kho dangKyKNT — chỉ GHI, không đọc) ---------- */
+/* ---------- gửi phiếu lên Firebase (kho dangKyKNT — chỉ GHI, không đọc) ----------
+   v18 (27/09/2026 tối, lô bảo mật R5): KHÔNG ghi thẳng Firestore nữa (luật create ⇒ false). Phiếu đi qua HÀM MÁY CHỦ
+   `dangKyKNT` (asia-southeast1, myLesson/may-chu): kiểm dữ liệu, đọc dấu App Check (app-check.js v17), giới hạn theo IP băm
+   (có dấu 5/giờ·15/ngày, không dấu 2/giờ·5/ngày, toàn hệ 300/ngày). Trùng SĐT+tên con ⇒ {daCo:true} như cũ.
+   Lý do: script bịa hàng nghìn số điện thoại ⇒ thầy gọi nhầm người + tốn lượt ghi (bản đồ tấn công T7d). */
 const FB_SDK='https://www.gstatic.com/firebasejs/12.9.0';
 const FB_CONFIG={apiKey:'AIzaSyAV_yoyAQM2fKKdOsJyuAxxf4AN7MsF7XY',authDomain:'aword-70dae.firebaseapp.com',projectId:'aword-70dae',
   storageBucket:'aword-70dae.firebasestorage.app',messagingSenderId:'399279049436',appId:'1:399279049436:web:b9b34dcfb34732aa744219'};
 let _fb=null;
 function fbDb(){
   if(!_fb) _fb=(async()=>{
-    const appMod=await import(FB_SDK+'/firebase-app.js'), fsMod=await import(FB_SDK+'/firebase-firestore.js');
+    const appMod=await import(FB_SDK+'/firebase-app.js'), fnMod=await import(FB_SDK+'/firebase-functions.js');
     const app=appMod.getApps().length?appMod.getApp():appMod.initializeApp(FB_CONFIG);
-    return {fs:fsMod,db:fsMod.getFirestore(app)};
+    // Cùng app với app-check.js ⇒ SDK tự gắn mã App Check vào lượt gọi hàm (nếu đã có mã).
+    return {goi:fnMod.httpsCallable(fnMod.getFunctions(app,'asia-southeast1'),'dangKyKNT')};
   })();
   return _fb;
 }
@@ -385,15 +390,17 @@ async function guiDangKy(){
   if($('#f-web').value){hienXong(false);return;}          // ô bẫy máy spam: giả như xong, không gửi
   dangGui=true;nutGui.disabled=true;nutGui.classList.add('dang');guiLoi.textContent='';
   try{
-    const {fs,db}=await fbDb();
-    await fs.setDoc(fs.doc(db,'dangKyKNT',sdt+'_'+maCon(g('f-con'))),{
-      phuHuynh:ten, soDienThoai:sdt, tenCon:g('f-con'), ngaySinh:g('f-ns').slice(0,40), truong:g('f-truong'), lop:g('f-lop'),
-      nguyenVong:true, khoa:'NEN TANG K10', guiLuc:fs.serverTimestamp(), daXem:false, nguon:(location.hostname||'local').slice(0,40)
+    const {goi}=await fbDb();
+    const kq=await goi({
+      phuHuynh:ten, soDienThoai:sdt, tenCon:g('f-con'), maCon:maCon(g('f-con')), ngaySinh:g('f-ns').slice(0,40), truong:g('f-truong'), lop:g('f-lop'),
+      nguyenVong:true, khoa:'NEN TANG K10', nguon:(location.hostname||'local').slice(0,40)
     });
-    hienXong(false);
+    hienXong(!!(kq&&kq.data&&kq.data.daCo));
   }catch(err){
-    // đã kiểm đủ trường phía máy ⇒ bị từ chối gần như chắc chắn là phiếu này đã có (trùng SĐT + tên con)
-    if(String(err&&err.code).includes('permission')) hienXong(true);
+    const ma=String((err&&err.code)||'');
+    if(ma.includes('already-exists')) hienXong(true);
+    else if(ma.includes('resource-exhausted')) guiLoi.textContent='Mạng này vừa gửi nhiều đăng ký quá. Phụ huynh thử lại sau 1 giờ, hoặc gọi thầy: 0359.769.765.';
+    else if(ma.includes('invalid-argument')) guiLoi.textContent='Có ô chưa đúng (số điện thoại 10 số, tên đầy đủ). Phụ huynh kiểm lại giúp thầy nhé.';
     else guiLoi.textContent='Chưa gửi được (mạng chập chờn?). Phụ huynh bấm "Gửi đăng ký" lại giúp thầy nhé.';
   }finally{dangGui=false;nutGui.disabled=false;nutGui.classList.remove('dang');}
 }
